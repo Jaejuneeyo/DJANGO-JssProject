@@ -1,22 +1,36 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .forms import JssForm
-from .models import Jasoseol
+from .forms import JssForm, CommentForm
+from .models import Jasoseol, Comment
 from django.http import Http404 
+from django.core.execeptions import PermissionDenied
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 
 def index(request):
     all_jss= Jasoseol.objects.all()
     return render(request,'index.html',{'all_jss':all_jss})
 
+def my_index(request):
+    my_jss = Jasosseol.objects.filter(author=request.user)
+    return render(request, 'index.html', {'all_jss': my_jss})
+
+
+@login_required(login_url='/login/')
 def create(request):
+    if not request.user.is_authenticated:
+        return redirect('login')
+
     if request.method == "POST":
         filled_form = JssForm(request.POST)
         if filled_form.is_valid():
+            temp_form = filled_form.save(commit=False)
+            temp_form.author = request.user
             filled_form.save()
             return redirect('index')
     jss_form =JssForm()
     return render(request,'create.html',{'jss_form':jss_form})
 
+@login_required(login_url='/login/')
 def detail(request, jss_id):
     # try:
     #     my_jss = Jasoseol.objects.get(pk=jss_id)
@@ -24,13 +38,18 @@ def detail(request, jss_id):
     #     raise Http404
 
     my_jss = get_object_or_404(Jasoseol, pk=jss_id)
+    comment_form = CommentForm()
 
-    return render(request,'detail.html', {'my_jss':my_jss})
+    return render(request,'detail.html', {'my_jss':my_jss, 'comment_form':comment_form})
 
 def delete(request, jss_id):
     my_jss = Jasoseol.objects.get(pk=jss_id)
-    my_jss.delete()
-    return redirect('index')
+    if request.user == my_jss.author:
+        my_jss.delete()
+        return redirect('index')
+
+    raise PermissionDenied
+    
 
 def update(request, jss_id):
     my_jss = Jasoseol.objects.get(pk=jss_id)
@@ -41,3 +60,21 @@ def update(request, jss_id):
             updated_form.save()
             return redirect('index')
     return render(request, 'create.html', {'jss_form':jss_form})
+
+def create_comment(request):
+    comment_form = CommentForm(request.POST)
+    if comment_form.is_valid():
+        temp_form = comment_form.save(commit=False)
+        temp_form.author = request.user
+        temp_form.Jasosseol = Jasoseol.objects.get(pk=jss_id)
+        temp_form.save()
+        return redirect('detail', jss_id)
+
+def delete_comment(request, jss_id_, comment_id):
+   my_comment = Comment.objects.get(pk=comment_id)
+   if request.user == my_comment.author:
+       my_comment.delete()
+       return redirect('detail', jss_id)
+
+    else:
+        raise PermissionDenied
