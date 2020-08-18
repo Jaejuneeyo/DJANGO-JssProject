@@ -1,4 +1,4 @@
-{% load static %}
+{% load static %} <!--static 가져오기-->
 
 <!DOCTYPE html>
 <html lang="en">
@@ -10,14 +10,14 @@
 </head>
 <body>
 
-    {% if user.is_authenticated %}
+    {% if user.is_authenticated %} <!--인증된 유저일 경우 로그아웃 가능-->
     <a href="{% url 'logout' %}">
         <button>로그아웃</button>
     </a>
 
     안녕하세요! {{user}}님
 
-    {% else %}
+    {% else %} <!--인증이 안 됐다면 회원가입과 로그인 버튼 보이게 함-->
 
     <a href="{% url 'signup' %}">
         <button>회원가입</button>
@@ -50,7 +50,7 @@
     {% endif %}
     <br>
 
-    {% for jss in all_jss %}
+    {% for jss in all_jss %} 
     <a href="{% url 'detail' jss.id %}">
     <div class="all_jss">
         <p>{{jss.id}}</p>

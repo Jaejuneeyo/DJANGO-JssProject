@@ -6,10 +6,10 @@
     <title>Document</title>
 </head>
 <body>
-
-    <form method="POST" action="">
-        {% csrf_token %}
-        {{jss_form.as_p}}
+    
+    <form method="POST" action="">  <!--POST 방식-보완도 상승-->
+        {% csrf_token %}    <!--csrf 보완 토큰-->
+        {{jss_form.as_p}}   
         <INPUT TYPE="submit" value="확인">
     </form>
 

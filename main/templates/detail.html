@@ -14,18 +14,18 @@
 
 <br>
 
-{% if user == my_jss.author %}
-<a href="{% url 'update' my_jss.id %}"><button>수정</button></a>
+{% if user == my_jss.author %} <!--작성자와 내가 같다면-->
+<a href="{% url 'update' my_jss.id %}"><button>수정</button></a> <!--수정, 삭제 버튼을 보이게 함-->
 <a href="{% url 'delete' my_jss.id %}"><button>삭제</button></a>
 {% endif %}
-{% if user.is_authenticated %}
+{% if user.is_authenticated %} <!--인증된 유저일 경우-->
     <form method="POST" action="{% url 'create_comment' %}">
     {(% csrf_token %)}
     {(comment_form)}
     <input type="submit" value="확인">
 </form>
 {% endif %}
-{% for comment in my_jss class=comment_set.all %}
+{% for comment in my_jss.comment_set.all %}
 
 <p>
     {(comment.content)} $$ {(comment.author)}

@@ -3,3 +3,4 @@ coast counted_text = document.querySelector(".counted_text")
 targetForm.addeventListener("keyup", function() {
     counted_text.innerHTML = targetForm.value.length
 }
+//자바 공부 열심히!!

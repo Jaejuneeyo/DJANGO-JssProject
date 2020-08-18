@@ -29,8 +29,8 @@ ALLOWED_HOSTS = []
 
 
 # Application definition
-
-INSTALLED_APPS = [
+#app 추가 시 등록
+INSTALLED_APPS = [              
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
