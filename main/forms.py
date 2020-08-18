@@ -1,5 +1,5 @@
 from django import forms
-from .models import Jasoseol
+from .models import Jasoseol,Comment
 
 class JssForm(forms.ModelForm):
 
@@ -18,7 +18,7 @@ class JssForm(forms.ModelForm):
         self.fields['title'].widget.attrs.update({
             'class' : 'jss_content_form',
         })
-class CommentForm(forms.Modelform):
+class CommentForm(forms.ModelForm):
 
     class Meta:
         model = Comment

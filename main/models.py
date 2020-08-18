@@ -11,4 +11,4 @@ class Jasoseol(models.Model):
 class Comment(models.Model):
     content = models.CharField(max_length=100)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
-    Jasoseol = models.ForeignKey(Jasoseol, on_delete=models.CASCADE)
+    jasoseol = models.ForeignKey(Jasoseol, on_delete=models.CASCADE)

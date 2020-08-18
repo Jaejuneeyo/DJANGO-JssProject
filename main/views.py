@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from .forms import JssForm, CommentForm
 from .models import Jasoseol, Comment
 from django.http import Http404 
-from django.core.execeptions import PermissionDenied
+from django.core.exceptions import PermissionDenied
 from django.contrib.auth.decorators import login_required
 # Create your views here.
 
@@ -76,5 +76,9 @@ def delete_comment(request, jss_id_, comment_id):
        my_comment.delete()
        return redirect('detail', jss_id)
 
-    else:
-        raise PermissionDenied
+   else:
+       raise PermissionDenied
+
+
+
+    
